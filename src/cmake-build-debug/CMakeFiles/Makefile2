@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/HelloSFML.dir/all
+all: CMakeFiles/main.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/HelloSFML.dir/clean
+clean: CMakeFiles/main.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/HelloSFML.dir
+# Target rules for target CMakeFiles/main.dir
 
 # All Build rule for target.
-CMakeFiles/HelloSFML.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloSFML.dir/build.make CMakeFiles/HelloSFML.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloSFML.dir/build.make CMakeFiles/HelloSFML.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target HelloSFML"
-.PHONY : CMakeFiles/HelloSFML.dir/all
+CMakeFiles/main.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target main"
+.PHONY : CMakeFiles/main.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/HelloSFML.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/cmake-build-debug/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/HelloSFML.dir/all
+CMakeFiles/main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/cmake-build-debug/CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/HelloSFML.dir/rule
+.PHONY : CMakeFiles/main.dir/rule
 
 # Convenience name for target.
-HelloSFML: CMakeFiles/HelloSFML.dir/rule
-.PHONY : HelloSFML
+main: CMakeFiles/main.dir/rule
+.PHONY : main
 
 # clean rule for target.
-CMakeFiles/HelloSFML.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloSFML.dir/build.make CMakeFiles/HelloSFML.dir/clean
-.PHONY : CMakeFiles/HelloSFML.dir/clean
+CMakeFiles/main.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/clean
+.PHONY : CMakeFiles/main.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
