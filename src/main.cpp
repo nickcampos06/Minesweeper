@@ -3,6 +3,6 @@
 #include "menu.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    Board ActiveBoard;
+    ActiveBoard.PrintBoard();
 }

@@ -201,30 +201,6 @@ menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/menu.cpp.s
 .PHONY : menu.cpp.s
 
-tile.o: tile.cpp.o
-.PHONY : tile.o
-
-# target to build an object file
-tile.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/tile.cpp.o
-.PHONY : tile.cpp.o
-
-tile.i: tile.cpp.i
-.PHONY : tile.i
-
-# target to preprocess a source file
-tile.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/tile.cpp.i
-.PHONY : tile.cpp.i
-
-tile.s: tile.cpp.s
-.PHONY : tile.s
-
-# target to generate assembly for a file
-tile.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/tile.cpp.s
-.PHONY : tile.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -243,9 +219,6 @@ help:
 	@echo "... menu.o"
 	@echo "... menu.i"
 	@echo "... menu.s"
-	@echo "... tile.o"
-	@echo "... tile.i"
-	@echo "... tile.s"
 .PHONY : help
 
 
