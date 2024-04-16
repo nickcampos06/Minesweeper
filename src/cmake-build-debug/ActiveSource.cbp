@@ -95,6 +95,12 @@
 		<Unit filename="/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/menu.h">
 			<Option target="main"/>
 		</Unit>
+		<Unit filename="/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/random.cpp">
+			<Option target="main"/>
+		</Unit>
+		<Unit filename="/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/random.h">
+			<Option target="main"/>
+		</Unit>
 		<Unit filename="/Users/nickcampos/Desktop/C++/COP3503C/Project3/ActiveSource/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

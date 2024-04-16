@@ -1,7 +1,10 @@
+#pragma once
 #include <vector>
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include "random.h"
 using namespace std;
 
 class Board {
@@ -11,7 +14,7 @@ class Board {
 
         bool _is_mine; // true or false
         unsigned int _adjacent_mine_count; // number 1 - 8
-        vector<Tile*> _adjacent_mines; // [0] = up ; [1] = right ; [2] = down ; [3] = left
+        vector<Tile*> _adjacent_mines; // [0] = up -> moves clockwise
         unsigned char _tile_status; // r = revealed ; c = covered ; f = flagged ; d = detonated ; B = bomb DEBUG ONLY
 
         // == FUNCTIONS == //
@@ -24,12 +27,12 @@ class Board {
         Tile();
 
         // CONSOLE OUTPUT //
-        void PrintTile();
+        void PrintTile(bool debug =  false);
 
     };
 
     vector<vector<unsigned int>> _mine_positions;
-    vector<vector<Tile>> _board;
+    vector<vector<Tile*>> _board;
 
     unsigned int _width;
     unsigned int _height;
@@ -50,8 +53,10 @@ public:
     Board();
     Board(string& file_name);
 
+    // DESTRUCTOR //
+    ~Board();
 
     // CONSOLE OUTPUT //
-    void PrintBoard();
+    void PrintBoard(bool debug = false);
 
 };
