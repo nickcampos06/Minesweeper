@@ -9,25 +9,31 @@ using namespace std;
 
 class Board {
 
-    struct Tile {
-        // == VARIABLES == //
-
+    class Tile {
         bool _is_mine; // true or false
+        bool _is_revealed;
+        bool _is_flagged;
         unsigned int _adjacent_mine_count; // number 1 - 8
         vector<Tile*> _adjacent_mines; // [0] = up -> moves clockwise
-        unsigned char _tile_status; // r = revealed ; c = covered ; f = flagged ; d = detonated ; B = bomb DEBUG ONLY
-
-        // == FUNCTIONS == //
-
-        // ACTIVE GAME FUNCTIONS //
-        void RevealTile(bool is_spreading = false);
-        void ToggleTileFlag();
-
+    public:
         // CONSTRUCTORS //
         Tile();
 
+        // ACCESSORS //
+        bool IsMine() const;
+        Tile* AccessAdjacentMine(unsigned int);
+
+        // MODIFIERS //
+        void MakeTileMine();
+        void AddAdjacentMine(Tile*);
+        void IncrementAdjacentMineCount();
+
+        // GAMEPLAY FUNCTIONS //
+        void RevealTile();
+        void ToggleTileFlag();
+
         // CONSOLE OUTPUT //
-        void PrintTile(bool debug =  false);
+        void PrintTile(bool debug =  false) const;
 
     };
 
@@ -39,16 +45,18 @@ class Board {
     unsigned int _mine_count;
 
     // CONSTRUCTOR HELPERS //
-    void GrabConfigData();
+    void GrabConfigData(); // loads config data such as width and height
     void GenerateTiles(); // generates a board with desired width and height
     void GenerateMines(); // randomly generates mine positions
-
     void LoadTiles(string& file_name); // loads tiles from preset file into board
-
     void SetAdjacentTiles(); // makes every tile aware of its direct neighbors
     void CountAdjacentMines(); // makes mines alert neighboring tiles of its presence
 
 public:
+    // GAMEPLAY FUNCTIONS //
+    void LeftClickOnBoard(unsigned int, unsigned int);
+    void RightClickOnBoard(unsigned int, unsigned int);
+
     // CONSTRUCTORS //
     Board();
     Board(string& file_name);
@@ -57,6 +65,6 @@ public:
     ~Board();
 
     // CONSOLE OUTPUT //
-    void PrintBoard(bool debug = false);
+    void PrintBoard(bool debug = false) const;
 
 };

@@ -1,6 +1,15 @@
 #include "board.h"
 
 // == BOARD CLASS == //
+
+// GAMEPLAY FUNCTIONS //
+void Board::LeftClickOnBoard(unsigned int row, unsigned int column) {
+    _board[row][column]->RevealTile();
+}
+void Board::RightClickOnBoard(unsigned int row, unsigned int column) {
+    _board[row][column]->ToggleTileFlag();
+}
+
 // CONSTRUCTORS //
 Board::Board() {
     GrabConfigData();
@@ -62,12 +71,12 @@ void Board::GenerateMines() {
         unsigned int mine_column = Random::Int(0, _width - 1);
 
         // ensure we don't make a tile a mine twice
-        while (_board[mine_row][mine_column]->_is_mine) {
+        while (_board[mine_row][mine_column]->IsMine()) {
             mine_row = Random::Int(0, _height - 1);
             mine_column = Random::Int(0, _width - 1);
         }
 
-        _board[mine_row][mine_column]->_is_mine = true;
+        _board[mine_row][mine_column]->MakeTileMine();
 
         vector<unsigned int> temp_coords;
         _mine_positions.push_back(temp_coords);
@@ -76,7 +85,6 @@ void Board::GenerateMines() {
 
     }
 }
-
 void Board::LoadTiles(string& file_name) {
     fstream tile_file(file_name);
     for (unsigned int i = 0; i < _height; ++i) {
@@ -89,7 +97,7 @@ void Board::LoadTiles(string& file_name) {
             tile_is_bomb = row_stream.get();
 
             if (tile_is_bomb == '1') {
-                _board[i][j]->_is_mine = true;
+                _board[i][j]->MakeTileMine();
                 vector<unsigned int> temp_coords;
                 temp_coords.push_back(i);
                 temp_coords.push_back(j);
@@ -114,11 +122,11 @@ void Board::SetAdjacentTiles() {
 
                     // make sure adjacent row is within the board, otherwise set it to null
                     if (adjacent_row < 0 || adjacent_column < 0 || adjacent_row > _height - 1 || adjacent_column > _width -1) {
-                        _board[row][column]->_adjacent_mines.push_back(nullptr);
+                        _board[row][column]->AddAdjacentMine(nullptr);
                     }
 
                     else {
-                        _board[row][column]->_adjacent_mines.push_back((_board[adjacent_row][adjacent_column]));
+                        _board[row][column]->AddAdjacentMine((_board[adjacent_row][adjacent_column]));
                     } // assuming all is well, make tile aware of adjacent tile
 
                 }
@@ -126,23 +134,22 @@ void Board::SetAdjacentTiles() {
         }
     }
 }
-
 void Board::CountAdjacentMines() {
     for (unsigned int i = 0; i < _mine_positions.size(); ++i) {
-        for (unsigned int j = 0; j < _board[_mine_positions[i][0]][_mine_positions[i][1]]->_adjacent_mines.size(); ++j) {
+        for (unsigned int j = 0; j < 8; ++j) {
             Tile* bomb_tile = _board[_mine_positions[i][0]][_mine_positions[i][1]];
-            if (bomb_tile->_adjacent_mines[j] == nullptr) {
+            if (bomb_tile->AccessAdjacentMine(j) == nullptr) {
                 continue;
             }
             else {
-                bomb_tile->_adjacent_mines[j]->_adjacent_mine_count += 1;
+                bomb_tile->AccessAdjacentMine(j)->IncrementAdjacentMineCount();
             }
         }
     }
 }
 
 // CONSOLE OUTPUT //
-void Board::PrintBoard(bool debug) {
+void Board::PrintBoard(bool debug) const {
     for (unsigned int row = 0; row < _board.size(); ++row) {
         for (unsigned int column = 0; column < _board[row].size(); ++column) {
             _board[row][column]->PrintTile(debug);
@@ -158,27 +165,78 @@ void Board::PrintBoard(bool debug) {
 // CONSTRUCTORS //
 Board::Tile::Tile() {
     _is_mine = false;
+    _is_flagged = false;
+    _is_revealed = false;
     _adjacent_mine_count = 0;
-    _tile_status = 'c';
-
 }
 
-// ACTIVE GAME FUNCTIONS //
-void Board::Tile::RevealTile(bool is_spreading) {
+// ACCESSORS //
+bool Board::Tile::IsMine() const{
+    return _is_mine;
+}
+Board::Tile* Board::Tile::AccessAdjacentMine(unsigned int index) {
+    return _adjacent_mines[index];
+}
 
+// MODIFIERS //
+void Board::Tile::MakeTileMine() {
+    _is_mine = true;
+}
+void Board::Tile::AddAdjacentMine(Board::Tile* tile_pointer) {
+    _adjacent_mines.push_back(tile_pointer);
+}
+void Board::Tile::IncrementAdjacentMineCount() {
+    _adjacent_mine_count += 1;
+}
+
+// GAMEPLAY FUNCTIONS //
+void Board::Tile::RevealTile() {
+    if (!_is_flagged && !_is_revealed) {
+        if (_adjacent_mine_count > 0) {
+            _is_revealed = true;
+        }
+        else {
+            _is_revealed = true;
+            for (unsigned int i = 0; i < _adjacent_mines.size(); ++i) {
+                if (_adjacent_mines[i] == nullptr) {
+                    continue;
+                }
+                _adjacent_mines[i]->RevealTile();
+            }
+        }
+    }
+}
+void Board::Tile::ToggleTileFlag() {
+    _is_flagged = !(_is_flagged);
 }
 
 // CONSOLE OUTPUT //
-void Board::Tile::PrintTile(bool debug) {
+void Board::Tile::PrintTile(bool debug) const{
     if (debug) {
         if (_is_mine) {
-            cout << "B";
+            cout << 'B';
+        }
+        else if (!_is_flagged) {
+            cout << _adjacent_mine_count;
         }
         else {
-            cout << _adjacent_mine_count;
+            cout << 'F';
         }
     }
     else {
-        cout << _tile_status;
+        if (!_is_revealed) {
+            cout << 'c';
+        }
+        else if (_is_flagged) {
+            cout << 'F';
+        }
+        else {
+            if (_adjacent_mine_count > 0) {
+                cout << _adjacent_mine_count;
+            }
+            else {
+                cout << " ";
+            }
+        }
     }
 }

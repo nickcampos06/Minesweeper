@@ -7,13 +7,13 @@ int main() {
     ActiveBoard.PrintBoard();
     ActiveBoard.PrintBoard(true);
 
-    string board_file = "../../boards/testboard2.brd";
+    string board_file = "../../boards/recursion_test.brd";
     Board FileBoard(board_file);
-    FileBoard.PrintBoard();
     FileBoard.PrintBoard(true);
 
+    FileBoard.RightClickOnBoard(5, 20);
+    FileBoard.LeftClickOnBoard(9, 22);
+    FileBoard.LeftClickOnBoard(2, 2);
+    FileBoard.PrintBoard();
 
 }
-
-// [1][0] [1][1] [0][1] [-1][1] [-1][0] [-1][-1] [0][-1] [1][-1]
-// [1][1] TR [1][0] T [1][-1] TL [0][1] MR [0][-1] ML [-1][1] BR [-1][0] B [-1][-1] BL
