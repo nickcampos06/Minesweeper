@@ -8,8 +8,7 @@ Board* LoadTestBoard(Board*, unsigned int);
 
 
 int main() {
-    string test = "../../boards/testboard1.brd";
-    auto* CurrentBoard = new Board(test);
+    auto* CurrentBoard = new Board();
     sf::RenderWindow window(sf::VideoMode(CurrentBoard->GetWindowWidth(), CurrentBoard->GetWindowHeight()), "Minesweeper");
 
     bool debug = false;
@@ -27,7 +26,18 @@ int main() {
                         unsigned int row = mousePosition.y / 32;
                         unsigned int col = mousePosition.x / 32;
                         CurrentBoard->LeftClickOnBoard(row, col);
-
+                    }
+                    else {
+                        unsigned int setting = Menu::ClickedSetting(CurrentBoard, mousePosition);
+                        if (setting == 0) {
+                            CurrentBoard = CreateNewBoard(CurrentBoard);
+                        }
+                        else if (setting == 1 || setting == 2 || setting == 3) {
+                            CurrentBoard = LoadTestBoard(CurrentBoard, setting);
+                        }
+                        else if (setting == 4) {
+                            debug = !debug;
+                        }
                     }
                 }
                 if (event.mouseButton.button == sf::Mouse::Right) {

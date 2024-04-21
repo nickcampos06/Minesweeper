@@ -3,5 +3,5 @@
 #include "TextureManager.h"
 struct Menu {
     static void RenderMenu(Board*, sf::RenderWindow& window);
-    unsigned int ClickedSetting(sf::Vector2i);
+    static unsigned int ClickedSetting(Board*, sf::Vector2i);
 };

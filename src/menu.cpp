@@ -36,11 +36,14 @@ void Menu::RenderMenu(Board* board, sf::RenderWindow& window) {
     sf::Sprite second_digit(TextureManager::GetTexture("digits"));
     sf::Sprite third_digit(TextureManager::GetTexture("digits"));
 
-    if (board->GetMineCount() >= 0) {
-        unsigned int x_offset = (board->GetMineCount() / 100) * 21;
+    int mine_count = board->GetMineCount();
+
+    if (mine_count >= 0) {
+        unsigned int x_offset = ((mine_count / 100) * 21);
         first_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
 
-        x_offset = (board->GetMineCount() / 10) * 21;
+        mine_count %= 100;
+        x_offset = (mine_count / 10) * 21;
         second_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
 
         x_offset = (board->GetMineCount() % 10) * 21;
@@ -71,6 +74,24 @@ void Menu::RenderMenu(Board* board, sf::RenderWindow& window) {
     window.draw(third_digit);
 }
 
-unsigned int ClickedSetting(sf::Vector2i mouse_click_position) {
-    return 0;
+unsigned int Menu::ClickedSetting(Board* board, sf::Vector2i mouse_click_position) {
+    if (mouse_click_position.y < board->GetWindowHeight() - 36) {
+        if (mouse_click_position.x < board->GetWindowWidth()/2 + 30 && mouse_click_position.x > board->GetWindowWidth()/2 - 30) {
+            return 0; // reset button
+        }
+        else if (mouse_click_position.x < board->GetWindowWidth()  && mouse_click_position.x > board->GetWindowWidth() - 64) {
+            return 3; // test 3 button
+        }
+        else if (mouse_click_position.x < board->GetWindowWidth() - 64 && mouse_click_position.x > board->GetWindowWidth() - 128) {
+            return 2; // test 2 button
+        }
+        else if (mouse_click_position.x < board->GetWindowWidth() - 128 && mouse_click_position.x > board->GetWindowWidth() - 192) {
+            return 1; // test 1 button
+        }
+        else if (mouse_click_position.x < board->GetWindowWidth() - 192 && mouse_click_position.x > board->GetWindowWidth() - 256) {
+            return 4; // debug button
+        }
+        return 10; // throwaway value
+    }
+    return 10; // throwaway value
 }

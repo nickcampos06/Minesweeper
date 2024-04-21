@@ -57,11 +57,9 @@ void Board::CheckTilesCleared() {
 void Board::WinLossTileUpdates() {
     if (_game_status == 1) {
         RevealAllTiles();
-        cout << "loss" << endl;
     }
     else if (_game_status == 2) {
         AutoFlagMines();
-        cout << "win" << endl;
     }
     else {
         CheckTilesCleared();
