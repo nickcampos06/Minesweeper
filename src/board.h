@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "random.h"
+#include "TextureManager.h"
 using namespace std;
 
 class Board {
@@ -14,13 +15,16 @@ class Board {
         bool _is_revealed;
         bool _is_flagged;
         unsigned int _adjacent_mine_count; // number 1 - 8
-        vector<Tile*> _adjacent_mines; // [0] = up -> moves clockwise
+        vector<Tile*> _adjacent_mines;
     public:
         // CONSTRUCTORS //
         Tile();
 
         // ACCESSORS //
         bool IsMine() const;
+        bool IsDetonated() const;
+        bool IsRevealed() const;
+        bool IsFlagged() const;
         Tile* AccessAdjacentMine(unsigned int);
 
         // MODIFIERS //
@@ -30,7 +34,11 @@ class Board {
 
         // GAMEPLAY FUNCTIONS //
         void RevealTile();
-        void ToggleTileFlag();
+        void ForceRevealTile();
+        bool ToggleTileFlag();
+
+        // VISUAL OUTPUT //
+        void RenderTile(sf::RenderWindow&, unsigned int, unsigned int, bool);
 
         // CONSOLE OUTPUT //
         void PrintTile(bool debug =  false) const;
@@ -40,9 +48,14 @@ class Board {
     vector<vector<unsigned int>> _mine_positions;
     vector<vector<Tile*>> _board;
 
-    unsigned int _width;
-    unsigned int _height;
-    unsigned int _mine_count;
+    unsigned int _game_status; // 0 = game_active ; 1 = loss ; 2 = win
+
+    unsigned int _board_width;
+    unsigned int _board_height;
+    int _mine_count;
+
+    unsigned int _window_width;
+    unsigned int _window_height;
 
     // CONSTRUCTOR HELPERS //
     void GrabConfigData(); // loads config data such as width and height
@@ -52,10 +65,23 @@ class Board {
     void SetAdjacentTiles(); // makes every tile aware of its direct neighbors
     void CountAdjacentMines(); // makes mines alert neighboring tiles of its presence
 
+    // GAMEPLAY FUNCTIONS HELPERS //
+    void RevealAllTiles();
+    void AutoFlagMines();
+    void CheckTilesCleared();
 public:
     // GAMEPLAY FUNCTIONS //
     void LeftClickOnBoard(unsigned int, unsigned int);
     void RightClickOnBoard(unsigned int, unsigned int);
+    void WinLossTileUpdates();
+
+    // ACCESSORS //
+    unsigned int GetWindowWidth();
+    unsigned int GetWindowHeight();
+    unsigned int GetBoardWidth();
+    unsigned int GetBoardHeight();
+    unsigned int GetGameStatus();
+    int GetMineCount();
 
     // CONSTRUCTORS //
     Board();
@@ -63,6 +89,9 @@ public:
 
     // DESTRUCTOR //
     ~Board();
+
+    // VISUAL OUTPUT //
+    void RenderBoard(sf::RenderWindow&, bool);
 
     // CONSOLE OUTPUT //
     void PrintBoard(bool debug = false) const;
