@@ -35,6 +35,7 @@ void Menu::RenderMenu(Board* board, sf::RenderWindow& window) {
     sf::Sprite first_digit(TextureManager::GetTexture("digits"));
     sf::Sprite second_digit(TextureManager::GetTexture("digits"));
     sf::Sprite third_digit(TextureManager::GetTexture("digits"));
+    sf::Sprite negative(TextureManager::GetTexture("digits"));
 
     int mine_count = board->GetMineCount();
 
@@ -50,19 +51,20 @@ void Menu::RenderMenu(Board* board, sf::RenderWindow& window) {
         third_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
     }
     else if (board->GetMineCount() < 0) {
-        if (abs(board->GetMineCount()) < 10) {
-            first_digit.setTextureRect(sf::IntRect(-21, 0, 21, 32));
-            second_digit.setTextureRect(sf::IntRect(210, 0, 21, 32 ));
-            unsigned int x_offset = abs(board->GetMineCount()) * 21;
-            third_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
-        }
-        else if (abs(board->GetMineCount()) >= 10) {
-            first_digit.setTextureRect(sf::IntRect(210, 0, 21, 32));
-            unsigned int x_offset = (abs(board->GetMineCount()) / 10) * 21;
-            second_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
-            x_offset = (abs(board->GetMineCount()) % 10) * 21;
-            third_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
-        }
+        unsigned int x_offset = (abs((mine_count) / 100) * 21);
+        first_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
+
+        mine_count %= 100;
+        x_offset = (abs(mine_count) / 10) * 21;
+        second_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
+
+        x_offset = (abs(board->GetMineCount()) % 10) * 21;
+        third_digit.setTextureRect(sf::IntRect(x_offset, 0, 21, 32));
+
+        negative.setTextureRect(sf::IntRect(210, 0, 21, 32));
+        negative.setPosition(43, board->GetWindowHeight() - 100);
+        window.draw(negative);
+
     }
     first_digit.setPosition(64, board->GetWindowHeight() - 100);
     window.draw(first_digit);

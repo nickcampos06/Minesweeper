@@ -69,13 +69,13 @@ Board* LoadTestBoard(Board* current_board, unsigned int test_number) {
     delete current_board;
     string file_name;
     if (test_number == 1) {
-        file_name = "../../boards/testboard1.brd";
+        file_name = "boards/testboard1.brd";
     }
     else if (test_number == 2) {
-        file_name = "../../boards/testboard2.brd";
+        file_name = "boards/testboard2.brd";
     }
     else if (test_number == 3) {
-        file_name = "../../boards/testboard3.brd";
+        file_name = "boards/testboard3.brd";
     }
     return new Board(file_name);
 }

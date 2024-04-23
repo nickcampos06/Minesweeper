@@ -3,15 +3,13 @@
 // == BOARD CLASS == //
 
 // GAMEPLAY FUNCTIONS HELPERS //
-void Board::RevealAllTiles() {
-    for (unsigned int row = 0; row < _board_height; ++row) {
-        for (unsigned int column = 0; column < _board_width; ++column) {
-            Tile* current_tile = _board[row][column];
-            if (current_tile->IsFlagged()) {
-               current_tile->ToggleTileFlag();
-            }
-            current_tile->ForceRevealTile();
+void Board::RevealAllMines() {
+    for (unsigned int coords = 0; coords < _mine_positions.size(); ++coords) {
+        Tile* current_tile = _board[_mine_positions[coords][0]][_mine_positions[coords][1]];
+        if (current_tile->IsFlagged()) {
+           current_tile->ToggleTileFlag();
         }
+        current_tile->ForceRevealTile();
     }
 }
 void Board::AutoFlagMines() {
@@ -51,12 +49,11 @@ void Board::CheckTilesCleared() {
     }
     if (covered_mines == 0) {
         _game_status = 2;
-        cout << "win" << endl;
     }
 }
 void Board::WinLossTileUpdates() {
     if (_game_status == 1) {
-        RevealAllTiles();
+        RevealAllMines();
     }
     else if (_game_status == 2) {
         AutoFlagMines();
@@ -123,7 +120,7 @@ Board::~Board() {
 
 // CONSTRUCTOR HELPERS //
 void Board::GrabConfigData() {
-    fstream config_file("../../boards/config.cfg");
+    fstream config_file("boards/config.cfg");
 
     string width;
     getline(config_file, width);
@@ -347,40 +344,6 @@ void Board::Tile::RenderTile(sf::RenderWindow &window, unsigned int row, unsigne
             sf::Sprite tile_addon(TextureManager::GetTexture("mine"));
             tile_addon.setPosition(col * 32, row * 32);
             window.draw(tile_addon);
-        }
-    }
-}
-
-// CONSOLE OUTPUT //
-void Board::Tile::PrintTile(bool debug) const{
-    if (debug) {
-        if (_is_mine) {
-            cout << 'B';
-        }
-        else if (!_is_flagged) {
-            cout << _adjacent_mine_count;
-        }
-        else {
-            cout << 'F';
-        }
-    }
-    else {
-        if (_is_flagged) {
-            cout << 'F';
-        }
-        else if (!_is_revealed) {
-            cout << 'c';
-        }
-        else {
-            if (_is_mine) {
-                cout << 'B';
-            }
-            else if (_adjacent_mine_count > 0) {
-                cout << _adjacent_mine_count;
-            }
-            else {
-                cout << " ";
-            }
         }
     }
 }

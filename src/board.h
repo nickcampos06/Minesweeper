@@ -66,7 +66,7 @@ class Board {
     void CountAdjacentMines(); // makes mines alert neighboring tiles of its presence
 
     // GAMEPLAY FUNCTIONS HELPERS //
-    void RevealAllTiles();
+    void RevealAllMines();
     void AutoFlagMines();
     void CheckTilesCleared();
 public:

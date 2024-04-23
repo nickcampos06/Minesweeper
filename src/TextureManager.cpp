@@ -3,7 +3,7 @@
 unordered_map<string, sf::Texture> TextureManager::textures;
 
 void TextureManager::LoadTexture(std::string file_name) {
-    string path = "../../images/";
+    string path = "images/";
     path += file_name + ".png";
 
     textures[file_name].loadFromFile(path);
