@@ -71,12 +71,6 @@ unsigned int Board::GetWindowWidth() {
 unsigned int Board::GetWindowHeight() {
     return _window_height;
 }
-unsigned int Board::GetBoardWidth() {
-    return _board_width;
-}
-unsigned int Board::GetBoardHeight() {
-    return _board_height;
-}
 int Board::GetMineCount() {
     return _mine_count;
 }

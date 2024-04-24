@@ -78,8 +78,6 @@ public:
     // ACCESSORS //
     unsigned int GetWindowWidth();
     unsigned int GetWindowHeight();
-    unsigned int GetBoardWidth();
-    unsigned int GetBoardHeight();
     unsigned int GetGameStatus();
     int GetMineCount();
 

@@ -23,9 +23,11 @@ int main() {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (mousePosition.y < (CurrentBoard->GetWindowHeight() - 100)) {
-                        unsigned int row = mousePosition.y / 32;
-                        unsigned int col = mousePosition.x / 32;
-                        CurrentBoard->LeftClickOnBoard(row, col);
+                        if (CurrentBoard->GetGameStatus() == 0) {
+                            unsigned int row = mousePosition.y / 32;
+                            unsigned int col = mousePosition.x / 32;
+                            CurrentBoard->LeftClickOnBoard(row, col);
+                        }
                     }
                     else {
                         unsigned int setting = Menu::ClickedSetting(CurrentBoard, mousePosition);
@@ -35,7 +37,7 @@ int main() {
                         else if (setting == 1 || setting == 2 || setting == 3) {
                             CurrentBoard = LoadTestBoard(CurrentBoard, setting);
                         }
-                        else if (setting == 4) {
+                        else if (setting == 4 && CurrentBoard->GetGameStatus() == 0) {
                             debug = !debug;
                         }
                     }
@@ -50,8 +52,11 @@ int main() {
             }
         }
         window.clear();
-        Menu::RenderMenu(CurrentBoard, window);
         CurrentBoard->WinLossTileUpdates();
+        if (CurrentBoard->GetGameStatus() != 0) {
+            debug = false;
+        }
+        Menu::RenderMenu(CurrentBoard, window);
         CurrentBoard->RenderBoard(window, debug);
         window.display();
 
